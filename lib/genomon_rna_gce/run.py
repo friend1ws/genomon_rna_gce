@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 
-import sys, tempfile, shutil, os, pkg_resources
+import sys, tempfile, shutil, os, subprocess, pkg_resources
 from ConfigParser import SafeConfigParser
 
 
@@ -9,8 +9,8 @@ def main(args):
     parser = SafeConfigParser()
     parser.read(args.param_conf_file)
 
-    # tmp_dir_name = tempfile.mkdtemp()
-    tmp_dir_name = "tmp"
+    tmp_dir_name = tempfile.mkdtemp()
+    print >> sys.stdout, "Creating temporary directory: " +  tmp_dir_name
 
     sample2seq = {}
     with open(args.sample_conf_file, 'r') as hin:
@@ -34,7 +34,7 @@ def main(args):
         print >> hout, '\t'.join([sample, 
                                   sample2seq[sample][0], 
                                   sample2seq[sample][1], 
-                                  output_dir + "/star/" + sample,
+                                  args.output_dir + "/star/" + sample,
                                   parser.get("star-alignment", "star_reference"),
                                   parser.get("star-alignment", "star_option"),
                                   parser.get("star-alignment", "samtools_sort_option")]) 
@@ -52,8 +52,8 @@ def main(args):
         
     for sample in sample2seq:
         print >> hout, '\t'.join([sample, 
-                                  output_dir + "/star/" + sample + "/" + sample + ".Chimeric.out.sam", 
-                                  output_dir + "/fusion/" + sample,
+                                  args.output_dir + "/star/" + sample + "/" + sample + ".Chimeric.out.sam", 
+                                  args.output_dir + "/fusion/" + sample,
                                   parser.get("fusionfusion", "reference")]) 
     hout.close()
     ##########
@@ -68,7 +68,7 @@ def main(args):
     print >> hout, ' '.join(["dsub", 
                              parser.get("general", "instance_option"),
                              parser.get("star-alignment", "resource"),
-                             "--logging " + output_dir + "/logging",
+                             "--logging " + args.output_dir + "/logging",
                              "--image friend1ws/star-alignment",
                              "--tasks " + tmp_dir_name + "/star-alignment-tasks.tsv",
                              "--script " + tmp_dir_name + "/star-alignment-script.sh",
@@ -78,7 +78,7 @@ def main(args):
     print >> hout, ' '.join(["dsub",
                              parser.get("general", "instance_option"),
                              parser.get("fusionfusion", "resource"),
-                             "--logging " + output_dir + "/logging",
+                             "--logging " + args.output_dir + "/logging",
                              "--image friend1ws/fusionfusion",
                              "--tasks " + tmp_dir_name + "/fusionfusion-tasks.tsv",
                              "--script " + tmp_dir_name + "/fusionfusion-script.sh"])
@@ -89,7 +89,15 @@ def main(args):
     ##########
     # copy script files
     shutil.copyfile(pkg_resources.resource_filename("genomon_rna_gce", "script/star-alignment-script.sh"), tmp_dir_name + "/star-alignment-script.sh")
-    shutil.copyfile(pkg_resources.resource_filename("genomon_rna_gce", "script/star-alignment-script.sh"), tmp_dir_name + "/star-alignment-script.sh")
+    shutil.copyfile(pkg_resources.resource_filename("genomon_rna_gce", "script/fusionfusion-script.sh"), tmp_dir_name + "/fusionfusion-script.sh")
     ##########
+
+        
+    ##########
+    # execute pipeline
+    subprocess.call(["bash", tmp_dir_name + "/dsub-batch.sh"])
+    
+    # remove the temporary directory
+    os.removedirs(tmp_dir_name)
 
 

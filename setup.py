@@ -9,6 +9,7 @@ setup(name='genomon_rna_gce',
       author_email='friend1ws@gamil.com',
       url='https://github.com/friend1ws/genomon_rna_gce',
       package_dir = {'': 'lib'},
+      package_data={'': ['script/*']},
       packages=['genomon_rna_gce'],
       scripts=['genomon_rna_gce'],
       license='MIT'
