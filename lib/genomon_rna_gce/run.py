@@ -98,6 +98,6 @@ def main(args):
     subprocess.call(["bash", tmp_dir_name + "/dsub-batch.sh"])
     
     # remove the temporary directory
-    os.removedirs(tmp_dir_name)
+    shutil.rmtree(tmp_dir_name)
 
 
