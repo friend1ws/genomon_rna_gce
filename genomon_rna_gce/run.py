@@ -1,13 +1,13 @@
 #! /usr/bin/env python
 
-import sys, tempfile, shutil, os, subprocess, pkg_resources
+import sys, argparse, tempfile, shutil, os, subprocess, pkg_resources
 from ConfigParser import SafeConfigParser
 
 
 def run(args):
 
-    parser = SafeConfigParser()
-    parser.read(args.param_conf_file)
+    cparser = SafeConfigParser()
+    cparser.read(args.param_conf_file)
 
     tmp_dir_name = tempfile.mkdtemp()
     print >> sys.stdout, "Creating temporary directory: " +  tmp_dir_name
@@ -35,9 +35,9 @@ def run(args):
                                   sample2seq[sample][0], 
                                   sample2seq[sample][1], 
                                   args.output_dir + "/star/" + sample,
-                                  parser.get("star-alignment", "star_reference"),
-                                  parser.get("star-alignment", "star_option"),
-                                  parser.get("star-alignment", "samtools_sort_option")]) 
+                                  cparser.get("star-alignment", "star_reference"),
+                                  cparser.get("star-alignment", "star_option"),
+                                  cparser.get("star-alignment", "samtools_sort_option")]) 
     hout.close()
     ############
 
@@ -54,7 +54,7 @@ def run(args):
         print >> hout, '\t'.join([sample, 
                                   args.output_dir + "/star/" + sample + "/" + sample + ".Chimeric.out.sam", 
                                   args.output_dir + "/fusion/" + sample,
-                                  parser.get("fusionfusion", "reference")]) 
+                                  cparser.get("fusionfusion", "reference")]) 
     hout.close()
     ##########
 
@@ -66,8 +66,8 @@ def run(args):
     print >> hout, ""
 
     print >> hout, ' '.join(["dsub", 
-                             parser.get("general", "instance_option"),
-                             parser.get("star-alignment", "resource"),
+                             cparser.get("general", "instance_option"),
+                             cparser.get("star-alignment", "resource"),
                              "--logging " + args.output_dir + "/logging",
                              "--image friend1ws/star-alignment",
                              "--tasks " + tmp_dir_name + "/star-alignment-tasks.tsv",
@@ -76,8 +76,8 @@ def run(args):
 
     print >> hout, "" 
     print >> hout, ' '.join(["dsub",
-                             parser.get("general", "instance_option"),
-                             parser.get("fusionfusion", "resource"),
+                             cparser.get("general", "instance_option"),
+                             cparser.get("fusionfusion", "resource"),
                              "--logging " + args.output_dir + "/logging",
                              "--image friend1ws/fusionfusion",
                              "--tasks " + tmp_dir_name + "/fusionfusion-tasks.tsv",
