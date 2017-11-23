@@ -2,6 +2,14 @@
 
 # genomon_rna_gce
 
+This is a software to perform cancer transcriptome sequence analysis using Google Compute Engine.
+More specifically, it execute alignment of fastq files (assuming these are set up at Google Cloud Storage) using [STAR](https://github.com/alexdobin/STAR), 
+and then fusion transcripts are identified using our inhouse software ([fusionfusion](https://github.com/Genomon-Project/fusionfusion)).
+Key result files (BAM files and fusion transcripts are loaded to Google Cloud Storage).
+This software heavily rely on a great batch job engine software, [dsub](https://github.com/googlegenomics/dsub).
+
+1. Assume the paired-end fastq files (transcriptome sequencing data) are at Google Cloud Storage
+1. First, these fastq files are extracted to the virtual machines at 
 Perform Genomon RNA pipeline in Google Compute Engine.
 
 # Installation
