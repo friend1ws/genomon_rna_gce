@@ -42,7 +42,7 @@ We need three arguments
 
 ## Sample Cofiguration file
 
-This is the CSV format file, in which the 1st column is the sample name (which can be set arbitrarily), and the 2nd and 3rd columns are the pathes for the 1st and 2nd fastq format sequence data. See the [example_conf/sample-conf.tsv](https://github.com/friend1ws/genomon_rna_gce/blob/master/example_conf/sample-conf.tsv) file for example.
+This is the CSV format file, in which the 1st column is the sample name (which can be set arbitrarily), and the 2nd and 3rd columns are the pathes for the 1st and 2nd fastq format sequence data. See the [example_conf/sample-conf.csv](https://github.com/friend1ws/genomon_rna_gce/blob/master/example_conf/sample-conf.csv) file for example.
 
 ## Output directory
 
