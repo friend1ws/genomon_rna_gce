@@ -7,6 +7,7 @@ More specifically:
 * Execute alignment of fastq files (assuming these are set up at Google Cloud Storage) using [STAR](https://github.com/alexdobin/STAR).
 * Identify fusion transcripts using our inhouse software ([fusionfusion](https://github.com/Genomon-Project/fusionfusion)).
 * Key result files (BAM files and fusion transcripts) are put in Google Cloud Storage.
+
 This software heavily rely on a great batch job engine software, [dsub](https://github.com/googlegenomics/dsub).
 
 # Installation
