@@ -32,10 +32,41 @@ See **Getting started on Google Cloud** section in the README.md file in the dsu
 
 # Quick Start
 
-```sh
-genomon_rna_gce \
-  ./example/sample-conf.tsv \
-  gs://rnaseq_cellline/test171113 \
-  ./example/param.cfg
+## Basic Commands
 ```
+genomon_rna_gce [-h] [--version] sample_conf_file output_dir param_conf_file
+```
+
+We need three arguments
+
+## Sample Cofiguration file
+
+This is the CSV format file, in which the 1st column is the sample name (which can be set arbitrarily), and the 2nd and 3rd columns are the pathes for the 1st and 2nd fastq format sequence data. See the [example_conf/sample-conf.tsv](https://github.com/friend1ws/genomon_rna_gce/blob/master/example_conf/sample-conf.tsv) file for example.
+
+## Output directory
+
+Set the path of output directory (Google Cloud Storage).
+
+## Parameter Configuration file
+
+This is the configuration file of parameters used in the workflow.
+You can use the [example_conf/param.cfg](https://github.com/friend1ws/genomon_rna_gce/blob/master/example_conf/param.cfg) with just modifying **general** section.
+
+```
+[general]
+instance_option = --project [your_project] --zones [your_favorite_zone]
+```
+
+## Test
+
+```
+genomon_rna_gce example_conf/sample-conf.tsv gs://[your_gcs_bucket] example_conf/param.cfg
+```
+
+# Result
+
+## BAM file
+
+You will be able to find the BAM file at ``gs://[your_gcs_bucket]``.
+
 
