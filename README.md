@@ -67,6 +67,8 @@ genomon_rna_gce example_conf/sample-conf.tsv gs://[your_gcs_bucket] example_conf
 
 ## BAM file
 
-You will be able to find the BAM file at ``gs://[your_gcs_bucket]``.
+You will be able to find the BAM file at ``gs://[your_gcs_bucket]/[specified_output_dir_name]/star/[sample_name]/``.
+Also the list of fusion transcripts can be found at ``gs://[your_gcs_bucket]/[specified_output_dir_name]/fusion/[sample_name]/``.
+See also [fusionfusion](https://github.com/Genomon-Project/fusionfusion) repository.
 
 
