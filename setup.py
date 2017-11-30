@@ -29,6 +29,7 @@ setup(
     ],
 
     packages = find_packages(exclude = ['docker']),
+    package_data={'genomon_rna_gce': ['script/*']},
     install_requires = ['dsub'],
 
     entry_points = {'console_scripts': ['genomon_rna_gce = genomon_rna_gce:main']}
